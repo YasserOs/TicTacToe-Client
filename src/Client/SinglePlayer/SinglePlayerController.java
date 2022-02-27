@@ -94,11 +94,13 @@ public class SinglePlayerController implements Initializable {
             btn.setText("X");
             availablePositions.remove(btn);
             numberOfPlays++;
+            changeBoardLabel("PC Turn");
+            pc.wait(1000);
             if (numberOfPlays >= 5) {
                 if (current_board.checkWin("X")) {
                     changeBoardLabel("You Won !");
                     playerTurn =false;
-                    pc.stop();
+                    availablePositions.clear();
                 }
             }
             playerTurn = false;
@@ -107,6 +109,7 @@ public class SinglePlayerController implements Initializable {
     }
 
     public void restart(ActionEvent event) {
+ 
         resetGrid();
     }
 
@@ -127,17 +130,20 @@ public class SinglePlayerController implements Initializable {
         current_board.board.clear();
         current_board.board.addAll(availablePositions);
         playerTurn = true;
-        pc.start();
+        changeBoardLabel("Your Turn");
     }
 
     public void pcMove() throws InterruptedException {
+        pc.notify();
         if (!availablePositions.isEmpty()) {
             int pos = Pc.randomMove(availablePositions.size());
             availablePositions.get(pos).setText("O");
             availablePositions.remove(availablePositions.get(pos));
             numberOfPlays++;
+            playerTurn=true;
+            changeBoardLabel("Your Turn");
             if (current_board.checkWin("O")) {
-                changeBoardLabel("You Won !");
+                changeBoardLabel("PC Won !");
             }
         }
     }
@@ -188,6 +194,7 @@ public class SinglePlayerController implements Initializable {
                 }
             }
         });
+        pc.start();
     }
 
     @Override
