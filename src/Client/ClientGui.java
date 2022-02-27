@@ -116,7 +116,7 @@ public class ClientGui extends Application {
     public static void createSocket()
     {
           try { 
-            playerSocket=new Socket("41.233.99.209",12345); 
+            playerSocket=new Socket("127.0.0.1",12345); 
             printStream = new PrintStream(playerSocket.getOutputStream());
             inputStream = new DataInputStream(playerSocket.getInputStream());
             createPlayerSocketThread();
