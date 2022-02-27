@@ -5,7 +5,7 @@
  */
 package Client.StartPage;
 import Client.ClientGui;
-import Client.models.GeneralController;
+import models.GeneralController;
 import models.*;
 import java.io.IOException;
 import java.net.URL;

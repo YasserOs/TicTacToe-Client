@@ -6,6 +6,7 @@
 package Client;
  
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -25,7 +26,7 @@ import javafx.stage.Stage;
 import models.Person;
 import org.json.JSONException;
 import org.json.JSONObject;
-import Client.models.GeneralController;
+import models.GeneralController;
 
  
 /**
@@ -52,7 +53,7 @@ public class ClientGui extends Application {
     public void start(Stage primaryStage) throws IOException
     {
         mainStage=primaryStage;
-         Parent root = FXMLLoader.load(getClass().getResource("./StartPage/SignIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("./StartPage/SignIn.fxml"));
 
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -65,7 +66,8 @@ public class ClientGui extends Application {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
-        Image icon  = new Image("./Media/icon.png");
+        File f = new File("Client/Media/icon.png");
+        Image icon  = new Image(f.toPath().toString());
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Home");
         Scene scene = new Scene(root);
@@ -76,14 +78,18 @@ public class ClientGui extends Application {
         primaryStage.show();
         primaryStage.setOnCloseRequest((event) -> {
             System.exit(1);
-        });       
-        Avatars.add(new Image ("./Media/11.png"));
-        Avatars.add(new Image ("./Media/33.png"));
-        Avatars.add( new Image ("./Media/44.png"));
-        Avatars.add(new Image ("./Media/55.png"));
-        Avatars.add( new Image ("./Media/66.png"));
+        });
+        f = new File("Client/Media/Bojack1.png");
+        Avatars.add(new Image (f.toPath().toString()));
+        f = new File("Client/Media/Bojack2.png");
+        Avatars.add(new Image (f.toPath().toString()));
+        f = new File("Client/Media/Btoot.png");
+        Avatars.add( new Image (f.toPath().toString()));
+        f = new File("Client/Media/Mr-peanut.png");
+        Avatars.add(new Image (f.toPath().toString()));
         Random rand = new Random();
         AvatarIndex = rand.nextInt(Avatars.size());
+        System.out.println("Avatar Index : " + AvatarIndex);
         SelectedAvatar = Avatars.get(AvatarIndex);
     }
     public static void createSocket()

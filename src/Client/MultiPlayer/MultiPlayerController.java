@@ -45,7 +45,7 @@ import models.Session;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import Client.models.GeneralController;
+import models.GeneralController;
 
 /**
  *
@@ -590,9 +590,9 @@ public class MultiPlayerController extends GeneralController implements Initiali
     }    
 
     public void restartVideos(){
-        videoForWinner = new MediaPlayer(new Media(getClass().getResource("../Media/1.mp4").toExternalForm()));
-         videoForLoser = new MediaPlayer(new Media(getClass().getResource("../Media/2.mp4").toExternalForm()));
-         VideoForDraw =new MediaPlayer(new Media(getClass().getResource("../Media/3.mp4").toExternalForm()));
+        videoForWinner = new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
+         videoForLoser = new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
+         VideoForDraw =new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
     }
 
         public void displayVideo(MediaPlayer video, String result)

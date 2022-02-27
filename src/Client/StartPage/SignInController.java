@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 import javafx.fxml.Initializable;
 import org.json.JSONException;
 import org.json.JSONObject;
-import Client.models.GeneralController;
+import models.GeneralController;
  
 /**
  *

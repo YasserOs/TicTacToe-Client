@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -66,13 +67,23 @@ public class SinglePlayerController implements Initializable {
     Board current_board = new Board();
     int numberOfPlays = 0;
     Boolean playerTurn = true;
-    String pick;
-    Person loggedPlayer = ClientGui.loggedPlayer;
     Thread pc;
-
+    @FXML
+    Label BoardLabel;
+    @FXML
+    Label playerName;
     @FXML
     private boolean isEmpty(Button pos) {
         return pos.getText().isEmpty();
+    }
+    
+    public void changeBoardLabel(String newLabel){
+        Platform.runLater(new Runnable (){
+            @Override
+            public void run() {
+                BoardLabel.setText(newLabel);
+            }
+        });
     }
 
     public void PlayerMove(ActionEvent event) throws InterruptedException {
@@ -96,6 +107,7 @@ public class SinglePlayerController implements Initializable {
     }
 
     public void resetGrid() {
+        availablePositions.clear();
         availablePositions.add(btn1);
         availablePositions.add(btn2);
         availablePositions.add(btn3);
@@ -120,7 +132,7 @@ public class SinglePlayerController implements Initializable {
             availablePositions.remove(availablePositions.get(pos));
             numberOfPlays++;
             if (current_board.checkWin("O")) {
-                availablePositions.clear();
+                changeBoardLabel("You Won !");
             }
         }
     }
@@ -143,6 +155,8 @@ public class SinglePlayerController implements Initializable {
             @Override
             public void run() {
                 if (!playerTurn) {
+                    changeBoardLabel("Pc Turn");
+                    restartbtn.setDisable(true);
                     try {
                         Thread.sleep(2000);
                         Platform.runLater(new Runnable() {
@@ -150,11 +164,14 @@ public class SinglePlayerController implements Initializable {
                             public void run() {
                                 try {
                                     pcMove();
+                                    changeBoardLabel("Your Turn");
                                     playerTurn = true;
                                     if (current_board.checkWin("O")) {
-                                        availablePositions.clear();
+                                        changeBoardLabel("You Lost !");
                                         playerTurn = false;
                                     }
+                                    restartbtn.setDisable(false);
+
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(SinglePlayerController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -171,6 +188,9 @@ public class SinglePlayerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        playerName.setText(ClientGui.loggedPlayer.getUsername());
+        changeBoardLabel("Your Turn");
         resetGrid();
         createPc();
     }

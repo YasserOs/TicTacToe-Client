@@ -6,8 +6,6 @@
 package models;
 
 import java.util.Date;
-import java.util.Vector;
-
 
 
 /**
@@ -27,7 +25,6 @@ public class Person {
     private int games_won;
     private int games_lost;
     private int draws;
-    static Vector<Session> pause_session = new Vector<Session>();
     public int AvatarIndex;
 
     public int getAvatarIndex() {
