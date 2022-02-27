@@ -60,8 +60,12 @@ public class LeaderBoardsController extends GeneralController implements Initial
     private Vector<Person> players ;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ClientGui.currentLiveCtrl=this;
-        sendMsgToServer();
+        try {
+            ClientGui.currentLiveCtrl=this;
+            sendMsgToServer();
+        } catch (JSONException ex) {
+            Logger.getLogger(LeaderBoardsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void back2MainRoom(ActionEvent event) throws IOException, JSONException
     
@@ -79,13 +83,13 @@ public class LeaderBoardsController extends GeneralController implements Initial
         window.show();
     
     } 
-    public void sendMsgToServer(){
+    public void sendMsgToServer() throws JSONException{
         JSONObject msg = new JSONObject();
         msg.put("Action", "LeaderBoard");
         msg.put("Mode","Busy");
         ClientGui.printStream.println(msg.toString());
     }
-     public void fillleaderboard(JSONObject msg) throws SQLException{
+     public void fillleaderboard(JSONObject msg) throws SQLException, JSONException{
             JSONArray players = msg.getJSONArray("TopPlayers");
             Vector<String> topPlayersNames = new Vector<String>() ;
             Vector<Integer> topPlayersScores = new Vector<Integer>() ;
@@ -116,17 +120,21 @@ public class LeaderBoardsController extends GeneralController implements Initial
 
     @Override
     public void processMessage(JSONObject msg) {
-        String Action = msg.getString("Action");
-        switch(Action){
-            case "LeaderBoard":
-        {
-            try {
-                fillleaderboard(msg);
-            } catch (SQLException ex) {
-                Logger.getLogger(LeaderBoardsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        try {
+            String Action = msg.getString("Action");
+            switch(Action){
+                case "LeaderBoard":
+                {
+                    try {
+                        fillleaderboard(msg);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(LeaderBoardsController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
+            }
+        } catch (JSONException ex) {
+            Logger.getLogger(LeaderBoardsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
       

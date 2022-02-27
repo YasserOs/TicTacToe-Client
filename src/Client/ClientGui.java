@@ -80,18 +80,22 @@ public class ClientGui extends Application {
         primaryStage.setOnCloseRequest((event) -> {
             if(currentLiveCtrl instanceof MultiPlayerController){
                 if(!MultiPlayerController.isPaused){
-                    loggedPlayer.gameslost();
-                    JSONObject msg = new JSONObject();
-                    msg.put("Action", "playerLeftWhilePlaying");
-                    msg.put("Mode", "Multiplayer");
-                    msg.put("Sender", loggedPlayer.getUsername());
-                    msg.put("Receiver", MultiPlayerController.player2);
-                    msg.put("score", ClientGui.loggedPlayer.getTotal_score());
-                    msg.put("Wins",  ClientGui.loggedPlayer.getGames_won());
-                    msg.put("Draws", ClientGui.loggedPlayer.getDraws());
-                    msg.put("Loses", ClientGui.loggedPlayer.getGames_lost());
-                    msg.put("Games", ClientGui.loggedPlayer.getGames_played());
-                    ClientGui.printStream.println(msg.toString());                   
+                    try {
+                        loggedPlayer.gameslost();
+                        JSONObject msg = new JSONObject();
+                        msg.put("Action", "playerLeftWhilePlaying");
+                        msg.put("Mode", "Multiplayer");
+                        msg.put("Sender", loggedPlayer.getUsername());
+                        msg.put("Receiver", MultiPlayerController.player2);
+                        msg.put("score", ClientGui.loggedPlayer.getTotal_score());
+                        msg.put("Wins",  ClientGui.loggedPlayer.getGames_won());
+                        msg.put("Draws", ClientGui.loggedPlayer.getDraws());
+                        msg.put("Loses", ClientGui.loggedPlayer.getGames_lost());
+                        msg.put("Games", ClientGui.loggedPlayer.getGames_played());                   
+                        ClientGui.printStream.println(msg.toString());
+                    } catch (JSONException ex) {
+                        Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             System.exit(1);
@@ -112,7 +116,7 @@ public class ClientGui extends Application {
     public static void createSocket()
     {
           try { 
-            playerSocket=new Socket("127.0.0.1",12345); 
+            playerSocket=new Socket("41.233.99.209",12345); 
             printStream = new PrintStream(playerSocket.getOutputStream());
             inputStream = new DataInputStream(playerSocket.getInputStream());
             createPlayerSocketThread();

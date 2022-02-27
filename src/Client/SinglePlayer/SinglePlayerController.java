@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -73,6 +74,7 @@ public class SinglePlayerController implements Initializable {
     @FXML
     Label playerName;
     @FXML
+    ImageView Micon;
     private boolean isEmpty(Button pos) {
         return pos.getText().isEmpty();
     }
@@ -94,11 +96,13 @@ public class SinglePlayerController implements Initializable {
             numberOfPlays++;
             if (numberOfPlays >= 5) {
                 if (current_board.checkWin("X")) {
-                    availablePositions.clear();
+                    changeBoardLabel("You Won !");
+                    playerTurn =false;
+                    pc.stop();
                 }
             }
             playerTurn = false;
-            createPc();
+            pcMove();
         }
     }
 
@@ -123,6 +127,7 @@ public class SinglePlayerController implements Initializable {
         current_board.board.clear();
         current_board.board.addAll(availablePositions);
         playerTurn = true;
+        pc.start();
     }
 
     public void pcMove() throws InterruptedException {
@@ -183,15 +188,15 @@ public class SinglePlayerController implements Initializable {
                 }
             }
         });
-        pc.start();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        Micon.setImage(ClientGui.SelectedAvatar);
         playerName.setText(ClientGui.loggedPlayer.getUsername());
         changeBoardLabel("Your Turn");
-        resetGrid();
         createPc();
+        resetGrid();
+
     }
-}
+} 
