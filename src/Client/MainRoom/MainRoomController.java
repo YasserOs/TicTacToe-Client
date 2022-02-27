@@ -250,15 +250,18 @@ public class MainRoomController extends GeneralController implements Initializab
                     break;
                 case "playersignup":
                     addplayer(msg);
+                    broadcastChat(msg);
                     break;
                 case "playersignin":
-                    updateplayerlist(msg, "online");
+                    updateplayerlist(msg);
+                    broadcastChat(msg);
                     break;
                 case "playersignout":
-                    updateplayerlist(msg, "offline");
+                    updateplayerlist(msg);
+                    broadcastChat(msg);
                     break;
                 case "playerStartedMatch":
-                    updateplayerlist(msg, "in-game");
+                    updateplayerlist(msg);
                     break;
                 case "Playerslist":
                     initPlayersTable(msg);
@@ -267,7 +270,10 @@ public class MainRoomController extends GeneralController implements Initializab
                     initGamessTable(msg);
                     break;
                 case "playerFinishMatch":
-                    updateplayerlist(msg, "online");
+                    updateplayerlist(msg);
+                    break;
+                case "playerBusy":
+                    updateplayerlist(msg);
                     break;
                 case "ResumeMatch":
                     startMultiPlayerMatch(msg, true);
@@ -401,10 +407,8 @@ public class MainRoomController extends GeneralController implements Initializab
     public void sendResumeAcceptMessage(JSONObject msg) throws JSONException {
         msg.remove("Action");
         msg.remove("Content");
-        // msg.remove("Avatar");
         msg.put("Action", "ResumeMatch");
         msg.put("Content", "Resume");
-        //msg.put("Avatar", ClientGui.AvatarIndex);
         ClientGui.printStream.println(msg.toString());
     }
 
@@ -430,7 +434,6 @@ public class MainRoomController extends GeneralController implements Initializab
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         dialog.getDialogPane().getStylesheets().add(getClass().getResource("../Media/MainRoom.css").toExternalForm());
-        //dialog.getDialogPane().setStyle("fx-font-weight: bold;-fx-font-family:Tahoma;-fx-background-color:#e8f5ff;-fx-text-alignment: center ;-fx-font-size: 18px;-fx-font-style: bold;");
         Optional<ButtonType> res = dialog.showAndWait();
 
         return res;
@@ -440,10 +443,10 @@ public class MainRoomController extends GeneralController implements Initializab
         Playerslist.add(new DisplayPlayers(msg.getString("username"), "online"));
     }
 
-    public void updateplayerlist(JSONObject msg, String status) throws JSONException {
+    public void updateplayerlist(JSONObject msg) throws JSONException {
         for (int i = 0; i < Playerslist.size(); i++) {
             if (Playerslist.get(i).getName().equals(msg.getString("username"))) {
-                Playerslist.set(i, new DisplayPlayers(msg.getString("username"), status));
+                Playerslist.set(i, new DisplayPlayers(msg.getString("username"), msg.getString("status")));
                 break;
             }
         }
