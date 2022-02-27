@@ -98,7 +98,8 @@ public class SignUpController  extends GeneralController implements Initializabl
             @Override
             public void run() {
                 try {
-                    int response = msg.getInt("Response");
+                    if (msg.getString("Action").equals("SignUp")) {
+                        int response = msg.getInt("Response");
                     switch(response){
                         case 0: // username already used
                             txtalert.setText("This username is already used !");
@@ -119,6 +120,8 @@ public class SignUpController  extends GeneralController implements Initializabl
                             break;
 
                     }  
+                    }
+                    
                 } catch (JSONException ex) {
                     Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
                 }  

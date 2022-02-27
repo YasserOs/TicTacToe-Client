@@ -96,7 +96,9 @@ public class SignInController extends GeneralController implements Initializable
             @Override
             public void run() {
                 try {
+                      if (msg.getString("Action").equals("SignIn")) {
                     int response = msg.getInt("Response");
+                    
                     switch(response){
                         case 0: // player Dosen't exist or username is incorrect
                             txtalert.setText("This user does not exist !");
@@ -119,6 +121,7 @@ public class SignInController extends GeneralController implements Initializable
                             txtalert.setText("An error occured!");
                             break;   
                     }  
+                 }
                 } catch (JSONException ex) {
                     Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
                 }
