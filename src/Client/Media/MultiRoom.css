@@ -1,0 +1,66 @@
+.label  {
+   
+    -fx-opacity: 1;  
+    -fx-text-fill:white;
+}
+
+#btn1 ,#btn2 ,#btn3 ,#btn4 ,#btn5 ,#btn6 ,#btn7 ,#btn8 ,#btn9 {
+    
+    -fx-background-color: transparent;  
+/*    rgba(255, 255, 255, 0.8);*/
+    -fx-text-fill: white;
+    -fx-border-color: #7CDCBB;
+
+}
+
+/* background: #E6DADA;  /* fallback for old browsers  
+background: linear-gradient(to right, #274046, #E6DADA);   */
+.text-area {
+    -fx-font-family: Consolas;
+    -fx-font-size: 15;
+    -fx-text-fill: linear-gradient(to right,#2556B7, #E4214C);
+    -fx-display-caret:true;
+}
+
+.text-area .content {
+    -fx-background-color: #E5F3FF;
+/*     -fx-text-fill: ;*/
+-fx-font-size: 18;
+}
+#pausebtn , #backbtn{
+    
+    -fx-background-color:  #39b5ff;
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-text-fill: linear-gradient(to right,#2556B7, #E4214C);
+}
+
+#pausebtn:hover,#backbtn:hover{
+    
+    
+    -fx-background-color: white;
+    -fx-text-fill:    #39b5ff;
+    -fx-border-color:    #39b5ff;
+    -fx-border-width: 2;
+    -fx-border-radius: 30;
+    -fx-font-size: 14;
+    
+    
+    
+}
+
+
+
+#pausebtn:pressed, #backbtn:pressed{
+    
+    -fx-background-color: white;
+    -fx-text-fill:  #39b5ff;
+    -fx-border-color:  #39b5ff;
+    -fx-border-width: 2;
+    -fx-rotate: 10;
+    -fx-font-size: 14;
+    
+}
+
+    
