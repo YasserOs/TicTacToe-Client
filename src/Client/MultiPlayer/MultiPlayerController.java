@@ -110,7 +110,6 @@ public class MultiPlayerController extends GeneralController implements Initiali
         player2= msg.getString("Sender");
         invited = isInvited;
         turnRandomizer();
-        System.out.println("Turns - Player 1 : " + playerTurn + " , Player 2 : "+oppTurn);
         currentSession = new Session(player1.getUsername(),player2);
         resetGrid();        
         leftPlayerName.setText(player1.getUsername());

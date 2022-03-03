@@ -68,6 +68,7 @@ public class SinglePlayerController implements Initializable {
     Board current_board = new Board();
     int numberOfPlays = 0;
     Boolean playerTurn = true;
+    
     Thread pc;
     @FXML
     Label BoardLabel;
@@ -95,16 +96,22 @@ public class SinglePlayerController implements Initializable {
             availablePositions.remove(btn);
             numberOfPlays++;
             changeBoardLabel("PC Turn");
-            pc.wait(1000);
             if (numberOfPlays >= 5) {
+                System.out.println("Num of plays more than 5");
                 if (current_board.checkWin("X")) {
                     changeBoardLabel("You Won !");
                     playerTurn =false;
-                    availablePositions.clear();
+                    pc.stop();
+                }else if(numberOfPlays == 9){
+                    changeBoardLabel("Draw !");
+                    pc.stop();
                 }
             }
             playerTurn = false;
-            pcMove();
+            synchronized (playerTurn){
+                playerTurn.notifyAll();
+
+            };
         }
     }
 
@@ -134,17 +141,28 @@ public class SinglePlayerController implements Initializable {
     }
 
     public void pcMove() throws InterruptedException {
-        pc.notify();
         if (!availablePositions.isEmpty()) {
+            System.out.println("PC TUUUUUUUUURN");
             int pos = Pc.randomMove(availablePositions.size());
             availablePositions.get(pos).setText("O");
             availablePositions.remove(availablePositions.get(pos));
             numberOfPlays++;
-            playerTurn=true;
+            
             changeBoardLabel("Your Turn");
             if (current_board.checkWin("O")) {
                 changeBoardLabel("PC Won !");
+                pc.stop();
+                playerTurn=false;
+            }else if(numberOfPlays==9){
+                changeBoardLabel("Draw");      
+                pc.stop();
+                playerTurn=false;    
+            }else{
+                changeBoardLabel("Your Turn"); 
+                restartbtn.setDisable(false);
+                playerTurn=true;
             }
+            
         }
     }
 
@@ -165,23 +183,28 @@ public class SinglePlayerController implements Initializable {
         pc = new Thread(new Runnable() {
             @Override
             public void run() {
+                while(true){
+                    synchronized (playerTurn){
+                        try {
+                            playerTurn.wait(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SinglePlayerController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    };
+             //  System.out.println("Entered pc thread "+playerTurn);
                 if (!playerTurn) {
-                    changeBoardLabel("Pc Turn");
                     restartbtn.setDisable(true);
                     try {
+                        System.out.println("PC TUUUURN BEFORE SLEEP");
                         Thread.sleep(2000);
+                        System.out.println("PC TUUUURN BEFORE SLEEP");
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     pcMove();
-                                    changeBoardLabel("Your Turn");
-                                    playerTurn = true;
-                                    if (current_board.checkWin("O")) {
-                                        changeBoardLabel("You Lost !");
-                                        playerTurn = false;
-                                    }
-                                    restartbtn.setDisable(false);
+                                    playerTurn=true;
 
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(SinglePlayerController.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,8 +216,10 @@ public class SinglePlayerController implements Initializable {
                     }
                 }
             }
+        }
         });
         pc.start();
+                
     }
 
     @Override

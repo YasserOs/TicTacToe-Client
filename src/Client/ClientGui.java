@@ -53,7 +53,7 @@ public class ClientGui extends Application {
     public void start(Stage primaryStage) throws IOException
     {
         mainStage=primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("./StartPage/SignIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("StartPage/SignIn.fxml"));
 
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -67,8 +67,7 @@ public class ClientGui extends Application {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
-        File f = new File("Client/Media/icon.png");
-        Image icon  = new Image(f.toPath().toString());
+        Image icon  = new Image(this.getClass().getResource("Media/icon.png").toString());
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Home");
         Scene scene = new Scene(root);
@@ -100,14 +99,10 @@ public class ClientGui extends Application {
             }
             System.exit(1);
         });
-        f = new File("Client/Media/Bojack1.png");
-        Avatars.add(new Image (f.toPath().toString()));
-        f = new File("Client/Media/Bojack2.png");
-        Avatars.add(new Image (f.toPath().toString()));
-        f = new File("Client/Media/Btoot.png");
-        Avatars.add( new Image (f.toPath().toString()));
-        f = new File("Client/Media/Mr-peanut.png");
-        Avatars.add(new Image (f.toPath().toString()));
+        Avatars.add(new Image (this.getClass().getResource("Media/Bojack1.png").toString()));
+        Avatars.add(new Image (this.getClass().getResource("Media/Bojack2.png").toString()));
+        Avatars.add( new Image (this.getClass().getResource("Media/Btoot.png").toString()));
+        Avatars.add(new Image (this.getClass().getResource("Media/Mr-peanut.png").toString()));
         Random rand = new Random();
         AvatarIndex = rand.nextInt(Avatars.size());
         System.out.println("Avatar Index : " + AvatarIndex);
