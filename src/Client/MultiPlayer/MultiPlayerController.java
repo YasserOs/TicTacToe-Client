@@ -593,12 +593,11 @@ public class MultiPlayerController extends GeneralController implements Initiali
          
     }    
 
-    public void restartVideos(){
-        videoForWinner = new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
-         videoForLoser = new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
+        public void restartVideos(){
+         videoForWinner = new MediaPlayer(new Media(getClass().getResource("../Media/win.mp4").toExternalForm()));
+         videoForLoser = new MediaPlayer(new Media(getClass().getResource("../Media/loss.mp4").toExternalForm()));
          VideoForDraw =new MediaPlayer(new Media(getClass().getResource("../Media/Draw.mp4").toExternalForm()));
     }
-
         public void displayVideo(MediaPlayer video, String result)
     {
             Platform.runLater(new Runnable(){
